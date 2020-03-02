@@ -24,8 +24,21 @@
 
 </ul>
 <div class="container bg-secondary text-white">
-    <h1 class="text-center">Liste des vidéos</h1>
-
+    <h1 class="text-center" style="margin-bottom: 40px">Liste des vidéos</h1>
+    <hr>
+    {{#myResult}}
+    <a href="/detailVid/{{id}}">
+        <div class="row">
+            <div class="col-2">
+                <img src="/img/{{lienImg}}">
+            </div>
+            <div class="col text-center" >
+                <h2 class="text-white">{{titre}}</h2>
+            </div>
+        </div>
+    </a>
+    <hr>
+    {{/myResult}}
 
 </div>
 

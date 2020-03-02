@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Hello, world!</title>
+</head>
+<body class="">
+<ul class="nav justify-content-around bg-dark">
+    <li class="nav-item">
+
+    </li>
+    <li class="nav-item">
+        <a class="nav-link  " href="/">Accueil</a>
+    </li>
+    <li class="nav-item ">
+        <a class="nav-link text-white" href="">Liste des vidéos</a>
+    </li>
+
+</ul>
+<div class="container bg-secondary text-white" style="margin-bottom: 10px">
+    <div class="text-center">
+        <img src="/img/{{lienImg}}"><h1 class="" style="margin-bottom: 40px">{{titre}}(solution)</h1>
+    </div>
+    <hr>
+</div>
+<div class="text-center">
+    <video controls style="width: 75vw">
+        <source src="/videos/{{lienSol}}" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+</div>
+
+<div class="container-fluid bg-dark text-white text-center " style="padding: 50px">
+
+    Vous êtes sur la vidéo solution de <a href="/detailVid/{{id}}">cette vidéo</a>
+</div>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="/script/init.js"></script>
+</body>
+</html>
