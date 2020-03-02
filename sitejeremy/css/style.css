@@ -1,0 +1,22 @@
+
+body{
+    background-color: darkred !important;
+}
+
+@media (min-width:1000px){
+    .myImageCar{
+        position: relative;
+        width: 100%;
+        height: 92vh;
+        background-size: cover!important;
+    }
+}
+@media (max-width:999px){
+    .myImageCar{
+        position: relative;
+        width: 100%;
+        height: 40vh;
+        background-size: cover!important;
+    }
+
+}
