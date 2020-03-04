@@ -10,45 +10,36 @@
     <link rel="stylesheet" href="/css/style.css">
     <title>Hello, world!</title>
 </head>
-<body class="">
+<body class="text-white">
 <ul class="nav justify-content-around bg-dark">
     <li class="nav-item">
 
     </li>
     <li class="nav-item">
-        <a class="nav-link  " href="/">Accueil</a>
+        <a class="nav-link text-white " href="/">Accueil</a>
     </li>
     <li class="nav-item ">
-        <a class="nav-link text-white" href="">Liste des vidéos</a>
+        <a class="nav-link" href="/videos">Liste des vidéos</a>
     </li>
 
 </ul>
-<div class="container bg-secondary text-white">
-    <div class="row">
-        <div class="col-4"></div>
-        <h1 class="col-4" style="margin-bottom: 40px">Liste des vidéos</h1>
-        {{#isAdmin}}
-        <div class="col-4"> <a class="btn btn-success" href="/ajoutVid">Ajouter une vidéo</a></div>
-        {{/isAdmin}}
-    </div>
-
-    <hr>
-    {{#myResult}}
-    <a href="/detailVid/{{id}}">
-        <div class="row">
-            <div class="col-2">
-                <img src="/img/{{lienImg}}" width="150%">
-            </div>
-            <div class="col text-center" >
-                <h2 class="text-white">{{titre}}</h2>
-            </div>
+<div class="container">
+    <form class="bg-secondary" style="padding: 10px; margin-top: 10px" action="/ajoutVidConfirm" method="post" enctype="multipart/form-data"    >
+        <div class="form-group">
+            <label for="titre">Titre</label>
+            <input type="text" class="form-control" id="titre" aria-describedby="emailHelp" name="titre" placeholder="...">
         </div>
-    </a>
-    <hr>
-    {{/myResult}}
-
+        <div class="form-group">
+            <label for="code">Code</label>
+            <input type="number" class="form-control" id="code" aria-describedby="emailHelp" name="code" placeholder="exemple : 127 ">
+        </div>
+        <div class="form-group">
+            <label for="upImg">Image</label>
+            <input type="file" class="btn" style="border: 1px solid slategray" name="upImg" id="upImg"  >
+        </div>
+        <button type="submit" class="btn btn-primary">Creer</button>
+    </form>
 </div>
-
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
