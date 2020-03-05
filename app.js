@@ -9,15 +9,23 @@ var app = express();
 
 app.use(express.urlencoded());
 app.use(session({
-    secret: 'My super session secret',
-    cookie: {
-        httpOnly: true,
-        secure: true,
-        maxAge: 10
-    }
+        secret: 'My super session secret',
+        cookie: {
+            httpOnly: true,
+            secure: true,
+            maxAge: 10
+        }
 
-})
+    })
 );
+
+app.use(function (req,res,next) {
+    if(session.admin === undefined){
+        session.admin = false;
+    }
+    next();
+});
+
 
 app.use(express.static('.'));
 
@@ -34,18 +42,15 @@ app.set('views', './views');
 
 
 app.get('/',(req,res) => {
-    if(session.admin === undefined){
-        session.admin = false;
-    }
     console.log("admin : "+session.admin)
-     res.render('index',{});
+    res.render('index',{});
 });
 
 app.get('/videos',(req,res) => {
     sql.query('SELECT * FROM videos ', (err, result, fields) => {
         if (err) throw err;
         var myResult = result;
-        res.render('videos',{myResult : myResult, isAdmin :true});//ATTTENTIIOIZOR?RO?OIr
+        res.render('videos',{myResult : myResult, isAdmin : session.admin});//ATTTENTIIOIZOR?RO?OIr
     });
 });
 app.get('/detailVid/:id',(req,res) => {
@@ -73,7 +78,7 @@ app.post('/solution/:id',(req,res)=>{
 
 
 app.get('/ajoutVid',(req,res) => {
-    if(session.admin === false){//attention
+    if(session.admin === true){
         res.render('ajoutVid',{});
     }else{
         res.redirect("/");
@@ -90,17 +95,27 @@ app.post('/ajoutVidConfirm',(req,res) => {
     form.parse(req, function (err, fields, files) {
         sql.query(query,[fields.titre,fields.code], function (err, result) {
             if (err) throw err;
-        var oldpath = files.upImg.path;
-        var newpath = 'C:/Users/Yann/Desktop/sites/sitejeremy/img/' + "img"+result.insertId+".png";
+            var oldpath = files.upImg.path;
+            var newpath = 'C:/Users/Yann/Desktop/sites/sitejeremy/img/' + "img"+result.insertId+".png";
 
             sql.query("UPDATE videos SET lienVid = ? , lienSol = ?, lienImg = ? WHERE id = ?",["vid"+result.insertId+".mp4","sol"+result.insertId+".mp4","img"+result.insertId+".png",result.insertId], function (err, result) { if (err) throw err;});
 
+            fs.rename(oldpath, newpath, function (err) {
+                if (err) throw err;
+            });
 
-        fs.rename(oldpath, newpath, function (err) {
-            if (err) throw err;
-            res.write('File uploaded and moved!');
-            res.end();
-        });
+            var oldpath1 = files.upVid.path;
+            var newpath1 = 'C:/Users/Yann/Desktop/sites/sitejeremy/videos/' + "vid"+result.insertId+".mp4";
+            fs.rename(oldpath1, newpath1, function (err) {
+                if (err) throw err;
+            });
+
+            var oldpath2 = files.upSoluce.path;
+            var newpath2 = 'C:/Users/Yann/Desktop/sites/sitejeremy/videos/' + "sol"+result.insertId+".mp4";
+            fs.rename(oldpath2, newpath2, function (err) {
+                if (err) throw err;
+            });
+            res.redirect("/")
         });
     });
 });
@@ -125,8 +140,8 @@ app.post('/connectAdmin',(req,res)=>{
 });
 
 app.get('/disconnectAdmin',(req,res)=>{
-   session.admin=false;
-   res.redirect("/");
+    session.admin=false;
+    res.redirect("/");
 });
 
 app.listen(3000, () => console.log('movie server at http://localhost:3000'));
