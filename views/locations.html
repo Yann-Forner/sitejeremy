@@ -1,0 +1,13 @@
+{{ > header}}
+
+<div class="container bg-dark">
+    <div class="row text-light text-center">
+        <div class="col-3 panel"><a href="" class="btn btn-info">Contacter le fournisseur</a></div>
+        <h1 class="col-6" style="margin-bottom: 40px">Liste des locations</h1>
+        {{#isAdmin}}
+        <div class="col-3 panel"> <a class="btn btn-info" href="/">Ajouter une Location</a></div>
+        {{/isAdmin}}
+    </div>
+</div>
+
+{{ > footer }}

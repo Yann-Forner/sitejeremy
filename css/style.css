@@ -1,6 +1,6 @@
 
 body{
-    background-color: darkred !important;
+    background-color: #212121 !important;
 }
 
 @media (min-width:1000px){
@@ -19,4 +19,14 @@ body{
         background-size: cover!important;
     }
 
+}
+
+
+.myRef{
+    color: #000000;
+
+}
+
+.panel{
+    margin-top: 20px;
 }

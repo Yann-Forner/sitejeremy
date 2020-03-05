@@ -42,7 +42,6 @@ app.set('views', './views');
 
 
 app.get('/',(req,res) => {
-    console.log("admin : "+session.admin)
     res.render('index',{});
 });
 
@@ -120,6 +119,10 @@ app.post('/ajoutVidConfirm',(req,res) => {
     });
 });
 
+app.get('/locations',(req,res)=>{
+   res.render("locations",{isAdmin : true});
+});
+
 app.get('/co',(req,res) =>{
     if(session.admin){
         res.render('decoAdmin');
@@ -131,7 +134,7 @@ app.get('/co',(req,res) =>{
 
 
 app.post('/connectAdmin',(req,res)=>{
-    if(req.body.ident === "test" && req.body.ident === "test"){
+    if(req.body.ident === "test" && req.body.pwd === "test"){
         session.admin=true;
         res.redirect("/");
     }else{
