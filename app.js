@@ -49,15 +49,19 @@ app.get('/videos',(req,res) => {
     sql.query('SELECT * FROM videos ', (err, result, fields) => {
         if (err) throw err;
         var myResult = result;
-        res.render('videos',{myResult : myResult, isAdmin : session.admin});//ATTTENTIIOIZOR?RO?OIr
+        res.render('videos',{myResult : myResult, isAdmin : session.admin});
     });
 });
 app.get('/detailVid/:id',(req,res) => {
     sql.query('SELECT * FROM videos WHERE id = ? ',[req.params.id] , (err, result, fields) => {
         if (err) throw err;
         var myResult = result;
-        if(myResult.length == 0) res.render('index',{});
-        else res.render('vidDetail',myResult[0]);
+        if(myResult.length === 0) res.render('index',{});
+
+        else{
+            myResult[0]['admin'] = session.admin;
+            res.render('vidDetail',myResult[0]);
+        }
     });
 
 });
@@ -68,7 +72,7 @@ app.post('/solution/:id',(req,res)=>{
     sql.query('SELECT * FROM videos WHERE id = ? AND codeVid = ?',[req.params.id,req.body.monCode] , (err, result, fields) => {
         if (err) throw err;
         var myResult = result;
-        if(myResult.length == 0) res.redirect("/detailVid/"+req.params.id);
+        if(myResult.length === 0) res.redirect("/detailVid/"+req.params.id);
         else res.render('vidSoluce',myResult[0]);
     });
 
@@ -123,6 +127,11 @@ app.get('/locations',(req,res)=>{
    res.render("locations",{isAdmin : true});
 });
 
+app.get('/ajoutLoc',(req,res)=>{
+    if(session.admin === true)res.redirect("/");//ATTENTIN
+   res.render("ajoutLoc",{})
+});
+
 app.get('/co',(req,res) =>{
     if(session.admin){
         res.render('decoAdmin');
@@ -146,5 +155,28 @@ app.get('/disconnectAdmin',(req,res)=>{
     session.admin=false;
     res.redirect("/");
 });
+
+app.get('/delete/:id',(req,res)=>{
+    if(session.admin === false)res.redirect('/');
+    sql.query('SELECT * FROM videos WHERE id = ? ',[req.params.id] , (err, result, fields) => {
+        if (err) throw err;
+        var myResult = result;
+        if(myResult.length === 0)res.redirect('/');
+        else{
+            try{
+                fs.unlinkSync("/Users/Yann/Desktop/sites/sitejeremy/img/"+myResult[0].lienImg);
+                fs.unlinkSync("/Users/Yann/Desktop/sites/sitejeremy/videos/"+myResult[0].lienVid);
+                fs.unlinkSync("/Users/Yann/Desktop/sites/sitejeremy/videos/"+myResult[0].lienSol);
+
+            }catch (err) {
+                console.error(err);
+            }
+            sql.query('DELETE FROM videos WHERE id = '+req.params.id);
+            res.redirect('/videos');
+        }
+    });
+
+});
+
 
 app.listen(3000, () => console.log('movie server at http://localhost:3000'));
