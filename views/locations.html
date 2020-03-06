@@ -2,11 +2,30 @@
 
 <div class="container bg-dark">
     <div class="row text-light text-center">
-        <div class="col-3 panel"><a href="" class="btn btn-info">Contacter le fournisseur</a></div>
-        <h1 class="col-6" style="margin-bottom: 40px">Liste des locations</h1>
+        <div class="col-sm-3 col-12 panel"><a href="" class="btn btn-info">Contacter le fournisseur</a></div>
+        <h1 class="col-sm-6 col-12" style="margin-bottom: 40px">Liste des locations</h1>
         {{#isAdmin}}
-        <div class="col-3 panel"> <a class="btn btn-info" href="/ajoutLoc">Ajouter une Location</a></div>
+        <div class="col-sm-3 panel col-12"> <a class="btn btn-info" href="/ajoutLoc">Ajouter une Location</a></div>
         {{/isAdmin}}
+    </div>
+
+    <div class="row text-dark" >
+    {{#myResult}}
+        <div class="card col-sm-4 col-12">
+            <div class="row">
+                <div class="col-1"></div>
+                <img class="card-img-top col-10" src="/img/{{lienImg}}" alt="Objets" style="width: 75%">
+            </div>
+
+            <div class="card-body" style="background-color: #BFBFBF;border-radius: 5px">
+                <h5 class="card-title">{{nom}}</h5>
+                <p class="card-text">{{carac}}</p>
+                {{#isAdmin}}
+                 <a href="/deleteLoc/{{id}}" class="btn btn-danger">Supprimer</a>
+                {{/isAdmin}}
+            </div>
+        </div>
+    {{/myResult}}
     </div>
 </div>
 

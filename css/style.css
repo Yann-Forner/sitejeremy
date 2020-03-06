@@ -30,3 +30,31 @@ body{
 .panel{
     margin-top: 20px;
 }
+
+
+
+@media (min-width:1000px){
+    .imgIcon{
+        width: 150%;
+    }
+}
+@media (max-width:999px){
+    .imgIcon{
+        width: 300%;
+    }
+
+}
+
+
+
+@media (min-width:1000px){
+    .imgIconPrinc{
+        width: 50%;
+    }
+}
+@media (max-width:999px){
+    .imgIconPrinc{
+        display: none;
+    }
+
+}

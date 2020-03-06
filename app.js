@@ -6,6 +6,7 @@ var formidable = require('formidable');
 var fs = require('fs');
 var app = express();
 
+var myUrl = "/Users/Yann/Desktop/sites/sitejeremy";
 
 app.use(express.urlencoded());
 app.use(session({
@@ -81,7 +82,7 @@ app.post('/solution/:id',(req,res)=>{
 
 
 app.get('/ajoutVid',(req,res) => {
-    if(session.admin === true){
+    if(session.admin){
         res.render('ajoutVid',{});
     }else{
         res.redirect("/");
@@ -90,6 +91,7 @@ app.get('/ajoutVid',(req,res) => {
 });
 
 app.post('/ajoutVidConfirm',(req,res) => {
+    if(session.admin){
     var form = new formidable.IncomingForm();
     var query = "INSERT INTO videos VALUES (null,?,'','',?,'')";
 
@@ -99,7 +101,7 @@ app.post('/ajoutVidConfirm',(req,res) => {
         sql.query(query,[fields.titre,fields.code], function (err, result) {
             if (err) throw err;
             var oldpath = files.upImg.path;
-            var newpath = 'C:/Users/Yann/Desktop/sites/sitejeremy/img/' + "img"+result.insertId+".png";
+            var newpath = myUrl+'/img/' + "img"+result.insertId+".png";
 
             sql.query("UPDATE videos SET lienVid = ? , lienSol = ?, lienImg = ? WHERE id = ?",["vid"+result.insertId+".mp4","sol"+result.insertId+".mp4","img"+result.insertId+".png",result.insertId], function (err, result) { if (err) throw err;});
 
@@ -108,30 +110,66 @@ app.post('/ajoutVidConfirm',(req,res) => {
             });
 
             var oldpath1 = files.upVid.path;
-            var newpath1 = 'C:/Users/Yann/Desktop/sites/sitejeremy/videos/' + "vid"+result.insertId+".mp4";
+            var newpath1 = myUrl+'/videos/' + "vid"+result.insertId+".mp4";
             fs.rename(oldpath1, newpath1, function (err) {
                 if (err) throw err;
             });
 
             var oldpath2 = files.upSoluce.path;
-            var newpath2 = 'C:/Users/Yann/Desktop/sites/sitejeremy/videos/' + "sol"+result.insertId+".mp4";
+            var newpath2 = myUrl+'/videos/' + "sol"+result.insertId+".mp4";
             fs.rename(oldpath2, newpath2, function (err) {
                 if (err) throw err;
             });
             res.redirect("/")
         });
     });
+    }else{
+        res.redirect("/");
+    }
 });
 
 app.get('/locations',(req,res)=>{
-   res.render("locations",{isAdmin : true});
+    sql.query('SELECT * FROM locations ', (err, result, fields) => {
+        if (err) throw err;
+        var myResult = result;
+        res.render('locations',{myResult : myResult, isAdmin : session.admin});
+    });
 });
 
 app.get('/ajoutLoc',(req,res)=>{
-    if(session.admin === true)res.redirect("/");//ATTENTIN
-   res.render("ajoutLoc",{})
+    if(session.admin === false)res.redirect("/");
+    else res.render("ajoutLoc",{})
 });
 
+app.post('/ajoutLocConfirm',(req,res)=>{
+    if(session.admin){
+
+
+    var form = new formidable.IncomingForm();
+    var query = "INSERT INTO locations VALUES (null,?,?,'')";
+
+    form.parse(req, function (err, fields, files) {
+        sql.query(query,[fields.titre,fields.carac], function (err, result) {
+            if (err) throw err;
+            var oldpath = files.upImg.path;
+            var newpath = myUrl+'/img/' + "imgLoc"+result.insertId+".png";
+
+            fs.rename(oldpath, newpath, function (err) {
+                if (err) throw err;
+            });
+            sql.query("UPDATE locations SET lienImg = ? WHERE id = ?",
+                ["imgLoc"+result.insertId+".png",result.insertId],
+                function (err, result) { if (err) throw err;});
+
+            res.redirect("/")
+        });
+    });
+    }else{
+        res.redirect("/")
+    }
+
+
+});
 app.get('/co',(req,res) =>{
     if(session.admin){
         res.render('decoAdmin');
@@ -158,15 +196,18 @@ app.get('/disconnectAdmin',(req,res)=>{
 
 app.get('/delete/:id',(req,res)=>{
     if(session.admin === false)res.redirect('/');
+    else{
+
+
     sql.query('SELECT * FROM videos WHERE id = ? ',[req.params.id] , (err, result, fields) => {
         if (err) throw err;
         var myResult = result;
         if(myResult.length === 0)res.redirect('/');
         else{
             try{
-                fs.unlinkSync("/Users/Yann/Desktop/sites/sitejeremy/img/"+myResult[0].lienImg);
-                fs.unlinkSync("/Users/Yann/Desktop/sites/sitejeremy/videos/"+myResult[0].lienVid);
-                fs.unlinkSync("/Users/Yann/Desktop/sites/sitejeremy/videos/"+myResult[0].lienSol);
+                fs.unlinkSync(myUrl+"/img/"+myResult[0].lienImg);
+                fs.unlinkSync(myUrl+"/videos/"+myResult[0].lienVid);
+                fs.unlinkSync(myUrl+"/videos/"+myResult[0].lienSol);
 
             }catch (err) {
                 console.error(err);
@@ -175,7 +216,29 @@ app.get('/delete/:id',(req,res)=>{
             res.redirect('/videos');
         }
     });
+    }
+});
 
+app.get("/deleteLoc/:id",(req,res)=>{
+    console.log(session.admin)
+    if(session.admin === false)res.redirect('/');
+    else{
+    sql.query('SELECT * FROM locations WHERE id = ? ',[req.params.id] , (err, result, fields) => {
+        if (err) throw err;
+        var myResult = result;
+        if(myResult.length === 0)res.redirect('/');
+        else{
+            try{
+                fs.unlinkSync(myUrl+"/img/"+myResult[0].lienImg);
+
+            }catch (err) {
+                console.error(err);
+            }
+            sql.query('DELETE FROM locations WHERE id = '+req.params.id);
+            res.redirect('/locations');
+        }
+    });
+    }
 });
 
 

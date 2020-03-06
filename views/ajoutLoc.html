@@ -4,16 +4,16 @@
 <div class="container">
     <form class="bg-secondary" style="padding: 10px; margin-top: 10px; border-radius: 15px" action="/ajoutLocConfirm" method="post" enctype="multipart/form-data"   >
         <div class="form-group">
-            <label for="titre">Titre</label>
+            <label for="titre">Nom</label>
             <input type="text" class="form-control" id="titre" aria-describedby="emailHelp" name="titre" placeholder="...">
         </div>
         <div class="form-group">
-            <label for="code">Code</label>
-            <input type="number" class="form-control" id="code" aria-describedby="emailHelp" name="code" placeholder="exemple : 127 ">
+            <label for="carac">Caractéristiques</label>
+            <textarea class="form-control" id="carac" name="carac" placeholder="..."></textarea>
         </div>
         <div class="form-group">
             <label for="upImg">Image</label>
-            <input type="file" class="btn" style="border: 1px solid slategray" name="upImg[]" id="upImg" multiple >
+            <input type="file" class="btn" style="border: 1px solid slategray" name="upImg" id="upImg" >
         </div>
         <button type="submit" class="btn btn-primary">Creer</button>
     </form>
