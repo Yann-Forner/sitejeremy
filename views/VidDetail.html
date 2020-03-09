@@ -21,7 +21,7 @@
     <div class="col-12  col-sm-4">
         <h5>Entrez le code pour voir la solution</h5>
         <form action="/solution/{{id}}" method="post" class="form-inline d-flex justify-content-center">
-            <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" name="monCode" placeholder="Code">
+            <input type="text" class="form-control mb-2 mr-sm-2" pattern="[0-9]{3,30}" id="inlineFormInputName2" name="monCode" placeholder="Code">
 
             <button type="submit" class="btn btn-primary mb-2">Valider</button>
         </form>

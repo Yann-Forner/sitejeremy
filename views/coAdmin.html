@@ -6,12 +6,12 @@
     {{/isFailed}}
     <div class="form-group">
         <label for="exampleInputEmail1">Identifiant</label>
-        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="..." name="ident" required>
+        <input type="text" pattern="[A-Za-z0-9!.,/*]{5,30}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="..." name="ident" required>
 
     </div>
     <div class="form-group">
         <label for="exampleInputPassword1">Mot de passe</label>
-        <input type="password" class="form-control" name="pwd" id="exampleInputPassword1" placeholder="..." required>
+        <input type="password" pattern="[A-Za-z0-9!.,/*]{5,30}" class="form-control" name="pwd" id="exampleInputPassword1" placeholder="..." required>
     </div>
 
     <button type="submit" class="btn btn-dark">Connexion</button>

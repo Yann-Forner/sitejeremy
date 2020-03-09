@@ -5,11 +5,11 @@
     <form class="bg-secondary" style="padding: 10px; margin-top: 10px; border-radius: 15px" action="/ajoutLocConfirm" method="post" enctype="multipart/form-data"   >
         <div class="form-group">
             <label for="titre">Nom</label>
-            <input type="text" class="form-control" id="titre" aria-describedby="emailHelp" name="titre" placeholder="...">
+            <input type="text" class="form-control" id="titre" aria-describedby="emailHelp" pattern="[A-Za-z0-9!.,/*]{5,30}" name="titre" placeholder="...">
         </div>
         <div class="form-group">
             <label for="carac">Caractéristiques</label>
-            <textarea class="form-control" id="carac" name="carac" placeholder="..."></textarea>
+            <textarea class="form-control" id="carac"  name="carac" placeholder="..."></textarea>
         </div>
         <div class="form-group">
             <label for="upImg">Image</label>
